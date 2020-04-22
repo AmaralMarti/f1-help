@@ -1,0 +1,30 @@
+{
+  "name": "f1-help-api",
+  "version": "1.0.0",
+  "description": "API Rest para a plataforma F1 Help",
+  "main": "src/bin/www",
+  "scripts": {
+    "start": "node src/bin/www",
+    "dev": "nodemon src/bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "API",
+    "rest",
+    "back-end",
+    "F1",
+    "Help"
+  ],
+  "author": "Henrique Marti",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mariadb": "^2.3.1",
+    "sequelize": "^5.21.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "sequelize-cli": "^5.5.1"
+  }
+}
