@@ -1,0 +1,18 @@
+.col-details {
+  text-align: center;
+  width: 10%;
+}
+
+.col-question {
+  text-align: justify;
+  width: 70%;
+}
+
+.col-question a {
+  text-decoration: none;
+  color: black;
+}
+
+.col-question p {
+  margin-bottom: 5px;
+}
