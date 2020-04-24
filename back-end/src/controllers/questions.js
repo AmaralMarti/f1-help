@@ -1,10 +1,13 @@
 const questionModel = require('../models/questions')
 const answerModel = require('../models/answers')
+const { Op } = require('sequelize')
 
 const Questions = {
   getAll: async (req, res, next) => {
     try {
-      const data = await Questions.getAllQuestions()
+      const params = Questions.getParams(req)
+
+      const data = await Questions.getAllQuestions(params)
 
       res.status(200).json({
         count: data.length,
@@ -85,8 +88,10 @@ const Questions = {
     }
   },
 
-  getAllQuestions: async () => {
+  getAllQuestions: async (params) => {
     const data = await questionModel.findAll({
+      where: params.where,
+      order: params.order,
       attributes: ['id', 'user', 'title', 'text', 'views', 'likes', 'createdAt', 'updatedAt'],
       include: [
         {
@@ -140,6 +145,66 @@ const Questions = {
     req.parentParams = parentParams
     next()
   },
+
+  getParams: (req) => {
+    let { order = '', user = '', title = '', text = '' } = req.query
+
+    order = Questions.getOrdenation(order)
+    user = Questions.getSearchField(user)
+    title = Questions.getSearchField(title)
+    text = Questions.getSearchField(text)
+
+    const where = {}
+
+    if (user) {
+      where.user = user
+    }
+
+    if (title) {
+      where.title = title
+    }
+
+    if (text) {
+      where.text = text
+    }
+
+    return {
+      order,
+      where,
+    }
+  },
+
+  getOrdenation(field) {
+    let output = []
+
+    if (field !== '') {
+      let direction = 'ASC'
+
+      if (field[0] == '-') {
+        field = field.slice(1)
+        direction = 'DESC'
+      }
+
+      if (['user', 'title', 'text', 'views', 'likes'].includes(field)) {
+        output = [
+          [ field, direction ]
+        ]
+      }
+    }
+
+    return output
+  },
+
+  getSearchField(value) {
+    let output
+    if ((value !== '') && (value.indexOf('%') >= 0) ) {
+      output = { [Op.like]: value}
+    }
+
+    return output
+  }
+
+
 }
 
 module.exports = Questions
