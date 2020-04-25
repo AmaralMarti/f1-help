@@ -5,16 +5,55 @@ import './style.css'
 
 import Structure from '../../components/Structure'
 import FormNewQuestion from '../../components/FormNewQuestion'
+import FormFilter from '../../components/FormFilter'
 import QuestionList from '../../components/QuestionList'
 import { Row, Col } from 'react-bootstrap'
 
 export default () => {
 
   const [ data, setData ] = useLocalStorage('data', {})
+  const [ order, setOrder ] = useLocalStorage('order')
+  const [ filter, setFilter ] = useLocalStorage('filter')
+  const [ pagination, setPagination ] = useLocalStorage('pagination')
 
-  async function getQuestions() {
+  const [ orderField, setOrderField ] = useLocalStorage('orderField')
+  const [ orderDirection, setOrderDirection ] = useLocalStorage('orderDirection')
+
+  const [ filterValue, setFilterValue ] = useLocalStorage('filterValue')
+  const [ filterMethod, setFilterMethod ] = useLocalStorage('filterMethod')
+  const [ filterField, setFilterField ] = useLocalStorage('filterField')
+
+  async function getQuestions(filterValue = undefined, orderValue = undefined, paginationValue = undefined) {
     try {
-      const res = await api.get(`/v1/questions`)
+      orderValue = orderValue || order
+      filterValue = filterValue !== undefined ? filterValue : filter
+      paginationValue = paginationValue !== undefined ? paginationValue : pagination
+
+      let query = ''
+
+      if (orderValue) {
+        query = `?${orderValue}`
+      }
+
+      if (filterValue) {
+        if (query === '') {
+          query = '?'
+        } else {
+          query += '&'
+        }
+        query += filterValue
+      }
+
+      if (paginationValue) {
+        if (query === '') {
+          query = '?'
+        } else {
+          query += '&'
+        }
+        query += paginationValue
+      }
+
+      const res = await api.get(`/v1/questions${query}`)
 
       setData(res.data)
     } catch(e) {
@@ -40,7 +79,39 @@ export default () => {
     }
   }
 
-  async function deleteQuestion(id) {
+  async function handleSearch(value, method, field) {
+    setFilterValue(value)
+    setFilterMethod(method)
+    setFilterField(field)
+
+    let filterValue = ''
+    if (value !== '') {
+      switch (method) {
+        case 'b':
+          value = `%${value}`
+          break;
+
+        case 'm':
+          value = `%${value}%`
+          break;
+
+        case 'e':
+          value = `${value}%`
+          break;
+
+        default:
+          break;
+      }
+
+      filterValue = `${field}=${value}`
+    }
+
+    await setFilter(filterValue)
+
+    getQuestions(filterValue)
+  }
+
+  async function handleDelete(id) {
     try {
       await api.delete(`/v1/questions/${id}`)
 
@@ -50,21 +121,78 @@ export default () => {
     }
   }
 
+  async function handleOrder(field, direction) {
+    setOrderField(field)
+    setOrderDirection(direction)
+
+    if ((field === undefined) && (direction === undefined)) {
+      getQuestions()
+    } else {
+      if (direction === 'desc') {
+        field = `-${field}`
+      }
+      field = `order=${field}`
+
+      setOrder(field)
+
+      getQuestions(undefined, field)
+    }
+  }
+
+  async function handleLike(id) {
+    try {
+      await api.post(`/v1/questions/${id}/like`)
+
+      getQuestions()
+    } catch(e) {
+      alert('Não foi possível registrar o like para a pergunta')
+    }
+  }
+
+  async function handleDislike(id) {
+    try {
+      await api.post(`/v1/questions/${id}/dislike`)
+
+      getQuestions()
+    } catch(e) {
+      alert('Não foi possível registrar o dislike para a pergunta')
+    }
+  }
+
+  async function handlePagination(page, perPage) {
+    const value = `page=${page}&perpage=${perPage}`
+    setPagination(value)
+
+    getQuestions(undefined, undefined, value)
+  }
+
   return (
     <Structure>
       <Row>
         <Col>
-          <FormNewQuestion
-            onSave={ addQuestion }
-          />
+          <FormNewQuestion onSave={ addQuestion }/>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <FormFilter value={filterValue} method={filterMethod} field={filterField} onSearch={ handleSearch }/>
         </Col>
       </Row>
 
       <Row>
         <Col>
           <QuestionList
-            data={ data.data }
-            onDelete={ deleteQuestion }
+            data={ data }
+
+            orderField={ orderField }
+            orderDirection={ orderDirection }
+
+            onDelete={ handleDelete }
+            onOrder={ handleOrder }
+            onLike={ handleLike }
+            onDislike={ handleDislike }
+            onPaginate={ handlePagination }
           />
         </Col>
       </Row>

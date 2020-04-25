@@ -1,18 +1,25 @@
 .col-details {
   text-align: center;
-  width: 10%;
+  width: 12%;
+}
+
+.btn-func {
+  margin-right: 2px;
 }
 
 .col-question {
   text-align: justify;
-  width: 70%;
+  width: 52%;
 }
 
 .col-question a {
   text-decoration: none;
+}
+
+.item a {
   color: black;
 }
 
-.col-question p {
-  margin-bottom: 5px;
+.col-full {
+  text-align: center;
 }
