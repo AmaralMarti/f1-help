@@ -1,16 +1,21 @@
 const questionModel = require('../models/questions')
 const answerModel = require('../models/answers')
-const { Op } = require('sequelize')
+const { Sequelize, Op } = require('sequelize')
 
 const Questions = {
   getAll: async (req, res, next) => {
     try {
-      const params = Questions.getParams(req)
+      const params = await Questions.getParams(req)
 
       const data = await Questions.getAllQuestions(params)
 
       res.status(200).json({
-        count: data.length,
+        metadata: {
+          pageCount: params.pagination.metadata.pageCount,
+          page: params.pagination.metadata.page,
+          perPage: params.pagination.metadata.perpage,
+          rowCount: data.length,
+        },
         data,
       })
     } catch(e) {
@@ -63,7 +68,6 @@ const Questions = {
         await data.save()
 
         res.status(200).json(data)
-
       } else {
         res.status(404).json({ error: `The question id ${id} couldn't be found.` })
       }
@@ -88,11 +92,39 @@ const Questions = {
     }
   },
 
+  like: async (req, res, next) => {
+    Questions.updatelike(1, req, res, next)
+  },
+
+  dislike: async (req, res, next) => {
+    Questions.updatelike(-1, req, res, next)
+  },
+
+  updatelike: async (likeInc, req, res, next) => {
+    try {
+      const id = req.params.questionId
+      let data = await Questions.getQuestionById(id)
+
+      if (data) {
+        data.likes += likeInc
+        await data.save()
+
+        res.status(200).json(data)
+      } else {
+        res.status(404).json({ error: `The question id ${id} couldn't be found.` })
+      }
+    } catch(e) {
+      next(e)
+    }
+  },
+
   getAllQuestions: async (params) => {
     const data = await questionModel.findAll({
       where: params.where,
       order: params.order,
-      attributes: ['id', 'user', 'title', 'text', 'views', 'likes', 'createdAt', 'updatedAt'],
+      limit: params.pagination.limit,
+      offset: params.pagination.offset,
+      attributes: ['id', 'user', 'title', 'text', [Sequelize.literal('(SELECT COUNT(*) FROM answers WHERE answers.questionId = Questions.id)'), 'answerCount'], 'views', 'likes', 'createdAt', 'updatedAt'],
       include: [
         {
           model: answerModel,
@@ -146,10 +178,49 @@ const Questions = {
     next()
   },
 
-  getParams: (req) => {
-    let { order = '', user = '', title = '', text = '' } = req.query
+  getParams: async req => {
+    const order = Questions.getOrdenation(req)
+    const where = Questions.getFilter(req)
+    const pagination = await Questions.getPagination(req, where)
 
-    order = Questions.getOrdenation(order)
+    return {
+      order,
+      where,
+      pagination,
+    }
+  },
+
+  getOrdenation(req) {
+    const { order = '' } = req.query
+    let field = order
+
+    let output = []
+
+    if (field !== '') {
+      let direction = 'ASC'
+
+      if (field[0] == '-') {
+        field = field.slice(1)
+        direction = 'DESC'
+      }
+
+      if (['user', 'title', 'text', 'views', 'likes', 'answers'].includes(field)) {
+        if (field === 'answers') {
+          field = Sequelize.literal('answerCount')
+        }
+
+        output = [
+          [ field, direction ]
+        ]
+      }
+    }
+
+    return output
+  },
+
+  getFilter(req) {
+    let { user = '', title = '', text = '' } = req.query
+
     user = Questions.getSearchField(user)
     title = Questions.getSearchField(title)
     text = Questions.getSearchField(text)
@@ -168,31 +239,7 @@ const Questions = {
       where.text = text
     }
 
-    return {
-      order,
-      where,
-    }
-  },
-
-  getOrdenation(field) {
-    let output = []
-
-    if (field !== '') {
-      let direction = 'ASC'
-
-      if (field[0] == '-') {
-        field = field.slice(1)
-        direction = 'DESC'
-      }
-
-      if (['user', 'title', 'text', 'views', 'likes'].includes(field)) {
-        output = [
-          [ field, direction ]
-        ]
-      }
-    }
-
-    return output
+    return where
   },
 
   getSearchField(value) {
@@ -202,9 +249,39 @@ const Questions = {
     }
 
     return output
+  },
+
+  getPagination: async (req, where) => {
+    let { page = 1, perpage = 5 } = req.query
+
+    page = parseInt(page)
+    perpage = parseInt(perpage)
+
+    const totalRows = (await Questions.countTotalRows(where)).length
+    const pageCount = Math.ceil(totalRows / perpage)
+
+    const limit = perpage
+    const offset = (page - 1) * perpage
+
+    const metadata = {
+      pageCount,
+      page,
+      perpage,
+    }
+
+    return {
+      limit,
+      offset,
+      metadata,
+    }
+  },
+
+  countTotalRows: async where => {
+    return await questionModel.findAll({
+      where,
+      attributes: [ 'id' ],
+    })
   }
-
-
 }
 
 module.exports = Questions

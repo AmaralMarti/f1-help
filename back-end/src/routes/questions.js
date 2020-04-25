@@ -13,6 +13,10 @@ router.patch('/:questionId', controller.update)
 
 router.delete('/:questionId', controller.delete)
 
+router.post('/:questionId/like', controller.like)
+
+router.post('/:questionId/dislike', controller.dislike)
+
 router.use('/:questionId/answers', controller.validateParams, controller.redirectParams, answers)
 
 module.exports = router
