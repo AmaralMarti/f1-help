@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: f1-help-database
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d/
+      - ./db/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: f1_help_db_prod
