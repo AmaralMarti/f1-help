@@ -7,10 +7,10 @@ export default (props) => {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand>
             <img
               alt=""
-              src="logo192.png"
+              src="/logo192.png"
               width="30"
               height="30"
               className="d-inline-block align-top"

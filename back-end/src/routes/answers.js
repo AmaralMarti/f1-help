@@ -12,4 +12,8 @@ router.patch('/:answerId', controller.update)
 
 router.delete('/:answerId', controller.delete)
 
+router.post('/:answerId/like', controller.like)
+
+router.post('/:answerId/dislike', controller.dislike)
+
 module.exports = router

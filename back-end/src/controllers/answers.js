@@ -2,17 +2,13 @@ const answerModel = require('../models/answers')
 
 const Answers = {
   getAll: async (req, res, next) => {
-    try {
-      const questionId = req.parentParams.questionId
-      const data = await Answers.getAllAnswers(questionId)
+    const questionId = req.parentParams.questionId
+    const data = await Answers.getAllAnswers(questionId)
 
-      res.status(200).json({
-        count: data.length,
-        data,
-      })
-    } catch(e) {
-      next(e)
-    }
+    res.status(200).json({
+      count: data.length,
+      data,
+    })
   },
 
   getById: async (req, res, next) => {
@@ -107,6 +103,32 @@ const Answers = {
     }
   },
 
+  like: async (req, res, next) => {
+    Answers.sumField('likes', 1, req, res, next)
+  },
+
+  dislike: async (req, res, next) => {
+    Answers.sumField('likes', -1, req, res, next)
+  },
+
+  sumField: async (field, value, req, res, next) => {
+    try {
+      const id = req.params.answerId
+      let data = await Answers.getAnswerById(id)
+
+      if (data) {
+        data[field] += parseInt(value)
+        await data.save()
+
+        res.status(200).json(data)
+      } else {
+        res.status(404).json({ error: `The answer id ${id} couldn't be found.` })
+      }
+    } catch(e) {
+      next(e)
+    }
+  },
+
   getAllAnswers: async (questionId) => {
     questionId = parseInt(questionId)
 
@@ -130,20 +152,14 @@ const Answers = {
   },
 
   clear: async (answer) => {
-    let output
-
-    if (answer) {
-      output = {
-        id: answer.id,
-        user: answer.user,
-        text: answer.text,
-        likes: answer.likes,
-        createdAt: answer.createdAt,
-        updatedAt: answer.updatedAt,
-      }
+    return {
+      id: answer.id,
+      user: answer.user,
+      text: answer.text,
+      likes: answer.likes,
+      createdAt: answer.createdAt,
+      updatedAt: answer.updatedAt,
     }
-
-    return output
   }
 }
 

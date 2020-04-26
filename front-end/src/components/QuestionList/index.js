@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react'
-import { Table, Button, Pagination, Form, Row, Col, Modal } from 'react-bootstrap'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Table, Button } from 'react-bootstrap'
 import { FaTrash, FaArrowDown, FaArrowUp, FaThumbsUp, FaThumbsDown } from 'react-icons/fa'
+import Pagination from '../Pagination'
+import ModalNotification from '../ModalNotification'
 import './style.css'
 
 export default (props) => {
-  useEffect(() => {
-    const perPage = props.data.metadata.perPage
-    if (perPage) {
-      document.getElementById('per-page').value = perPage
-    }
-  }, [props.data.metadata.perPage])
 
   function loadQuestions() {
     const questions = ((props.data || {}).data || [])
@@ -17,13 +14,13 @@ export default (props) => {
       return questions.map(question => (
         <tr key={ question.id }>
           <td className='col-question item'>
-            <a href="/">{ question.title }</a>
+            <Link to={`/questions/${question.id}`}>{ question.title }</Link>
           </td>
           <td className='col-details'>{ question.answers.length }</td>
           <td className='col-details'>{ question.views }</td>
           <td className='col-details'>{ question.likes }</td>
           <td className='col-details'>
-          <Button
+            <Button
               className="btn-func"
               variant="primary"
               size="sm"
@@ -58,17 +55,18 @@ export default (props) => {
   }
 
   const [idDelete, setIdDelete] = React.useState(false)
+  const [showConfirmation, setShowConfirmation] = React.useState(false)
 
   function doDelete() {
     if (props.onDelete) {
-      handleClose()
+      setShowConfirmation(false)
       props.onDelete(idDelete)
     }
   }
 
   function handleDelete(id) {
     setIdDelete(id)
-    setShow(true)
+    setShowConfirmation(true)
   }
 
   function handleOrder(e, field) {
@@ -90,18 +88,6 @@ export default (props) => {
     }
   }
 
-  function handleLike(id) {
-    if (props.onLike) {
-      props.onLike(id)
-    }
-  }
-
-  function handleDislike(id) {
-    if (props.onDislike) {
-      props.onDislike(id)
-    }
-  }
-
   function getDirection() {
     if (props.orderDirection === undefined) {
       return 'asc'
@@ -111,8 +97,20 @@ export default (props) => {
       return 'desc'
     }
 
-    if (props.orderDirection === 'asc') {
+    if (props.orderDirection === 'desc') {
       return undefined
+    }
+  }
+
+  function handleLike(id) {
+    if (props.onLike) {
+      props.onLike(id)
+    }
+  }
+
+  function handleDislike(id) {
+    if (props.onDislike) {
+      props.onDislike(id)
     }
   }
 
@@ -126,66 +124,21 @@ export default (props) => {
       <span></span>
   }
 
-  function handlePerPage(e) {
-    props.data.metadata.perPage = e.target.value
-    paginate()
-  }
-
-  function handlePagination(pageNum) {
-    props.data.metadata.page = pageNum
-    paginate()
-  }
-
-  function paginate() {
+  function paginate(page, perPage) {
     if (props.onPaginate) {
-      props.onPaginate(props.data.metadata.page, props.data.metadata.perPage)
+      props.onPaginate(page, perPage)
     }
   }
-
-  function getPagination() {
-    const { page = 1, pageCount = 1 } = ((props.data || {}).metadata || {})
-
-    let prevNum = parseInt(page - 1)
-    const actualNum = parseInt(page)
-    let nextNum = parseInt(page + 1)
-
-    prevNum = prevNum <= 0 ? undefined : prevNum
-    nextNum = nextNum > pageCount ? undefined : nextNum
-
-    let first = <Pagination.First onClick={ () => handlePagination(1)}/>
-    let prev = <Pagination.Item onClick={ () => handlePagination(prevNum)}>{ prevNum }</Pagination.Item>
-    let actual = <Pagination.Item active>{ actualNum }</Pagination.Item>
-    let next = <Pagination.Item onClick={ () => handlePagination(nextNum)}>{ nextNum }</Pagination.Item>
-    let last = <Pagination.Last onClick={ () => handlePagination(pageCount)}/>
-
-    if (!prevNum) {
-      first = <Pagination.First disabled/>
-      prev = undefined
-    }
-
-    if (!nextNum) {
-      next = undefined
-      last = <Pagination.Last disabled/>
-    }
-
-    return (
-      <Pagination>
-        { first }
-        { prev }
-        { actual }
-        { next }
-        { last }
-      </Pagination>
-    )
-  }
-
-  const [show, setShow] = React.useState(false)
-
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
 
   return (
     <>
+      <Pagination
+        pageCount={ ((props.data || {}).metadata || {}).pageCount || 1 }
+        perPage={ ((props.data || {}).metadata || {}).perPage || 5 }
+        page={ ((props.data || {}).metadata || {}).page || 1 }
+        onPaginate={ paginate }
+      />
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -201,36 +154,18 @@ export default (props) => {
         </tbody>
       </Table>
 
-      <Row>
-        <Col xs={2}>
-          { getPagination() }
-        </Col>
-        <Col xs={3}>
-        <Form.Group controlId="per-page">
-          <Form.Control as="select" onChange={ handlePerPage }>
-            <option value='5'>5 perguntas por página</option>
-            <option value='10'>10 perguntas por página</option>
-            <option value='50'> 50 perguntas por página</option>
-            <option value='100'>100 perguntas por página</option>
-          </Form.Control>
-        </Form.Group>
-        </Col>
-      </Row>
-
-      <Modal show={show} onHide={ handleClose }>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmação</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Confirma a exclusão da pergunta?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={ doDelete }>
-            Sim
-          </Button>
-          <Button variant="secondary" onClick={ handleClose }>
-            Não
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalNotification
+        show={showConfirmation}
+        title="Confirmação"
+        message="Confirma a exclusão da pergunta?"
+      >
+        <Button variant="primary" onClick={ doDelete }>
+          Sim
+        </Button>
+        <Button variant="secondary" onClick={ () => setShowConfirmation(false) }>
+          Não
+        </Button>
+      </ModalNotification>
     </>
   )
 }

@@ -11,7 +11,7 @@ import { Row, Col } from 'react-bootstrap'
 
 export default () => {
 
-  const [ data, setData ] = useLocalStorage('data', {})
+  const [ data, setData ] = useLocalStorage('questions', {})
   const [ order, setOrder ] = useLocalStorage('order')
   const [ filter, setFilter ] = useLocalStorage('filter')
   const [ pagination, setPagination ] = useLocalStorage('pagination')
@@ -25,7 +25,7 @@ export default () => {
 
   async function getQuestions(filterValue = undefined, orderValue = undefined, paginationValue = undefined) {
     try {
-      orderValue = orderValue || order
+      orderValue = orderValue !== undefined ? orderValue : order
       filterValue = filterValue !== undefined ? filterValue : filter
       paginationValue = paginationValue !== undefined ? paginationValue : pagination
 
@@ -88,7 +88,7 @@ export default () => {
     if (value !== '') {
       switch (method) {
         case 'b':
-          value = `%${value}`
+          value = `${value}%`
           break;
 
         case 'm':
@@ -96,7 +96,7 @@ export default () => {
           break;
 
         case 'e':
-          value = `${value}%`
+          value = `%${value}`
           break;
 
         default:
@@ -126,7 +126,8 @@ export default () => {
     setOrderDirection(direction)
 
     if ((field === undefined) && (direction === undefined)) {
-      getQuestions()
+      setOrder('')
+      getQuestions(undefined, '')
     } else {
       if (direction === 'desc') {
         field = `-${field}`
@@ -176,7 +177,12 @@ export default () => {
 
       <Row>
         <Col>
-          <FormFilter value={filterValue} method={filterMethod} field={filterField} onSearch={ handleSearch }/>
+          <FormFilter
+            value={filterValue}
+            method={filterMethod}
+            field={filterField}
+            onSearch={ handleSearch }
+          />
         </Col>
       </Row>
 
@@ -188,11 +194,11 @@ export default () => {
             orderField={ orderField }
             orderDirection={ orderDirection }
 
-            onDelete={ handleDelete }
             onOrder={ handleOrder }
+            onPaginate={ handlePagination }
+            onDelete={ handleDelete }
             onLike={ handleLike }
             onDislike={ handleDislike }
-            onPaginate={ handlePagination }
           />
         </Col>
       </Row>

@@ -1,8 +1,8 @@
 import React from 'react'
-import List from './pages/list'
+import Routes from './routes'
 
 export default () => {
   return (
-    <List/>
+    <Routes/>
   )
 }

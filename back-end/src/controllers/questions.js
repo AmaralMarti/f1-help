@@ -4,23 +4,19 @@ const { Sequelize, Op } = require('sequelize')
 
 const Questions = {
   getAll: async (req, res, next) => {
-    try {
-      const params = await Questions.getParams(req)
+    const params = await Questions.getParams(req)
 
-      const data = await Questions.getAllQuestions(params)
+    const data = await Questions.getAllQuestions(params)
 
-      res.status(200).json({
-        metadata: {
-          pageCount: params.pagination.metadata.pageCount,
-          page: params.pagination.metadata.page,
-          perPage: params.pagination.metadata.perpage,
-          rowCount: data.length,
-        },
-        data,
-      })
-    } catch(e) {
-      next(e)
-    }
+    res.status(200).json({
+      metadata: {
+        pageCount: params.pagination.metadata.pageCount,
+        page: params.pagination.metadata.page,
+        perPage: params.pagination.metadata.perpage,
+        rowCount: data.length,
+      },
+      data,
+    })
   },
 
   getById: async (req, res, next) => {
@@ -93,20 +89,24 @@ const Questions = {
   },
 
   like: async (req, res, next) => {
-    Questions.updatelike(1, req, res, next)
+    Questions.sumField('likes', 1, req, res, next)
   },
 
   dislike: async (req, res, next) => {
-    Questions.updatelike(-1, req, res, next)
+    Questions.sumField('likes', -1, req, res, next)
   },
 
-  updatelike: async (likeInc, req, res, next) => {
+  view: async (req, res, next) => {
+    Questions.sumField('views', 1, req, res, next)
+  },
+
+  sumField: async (field, value, req, res, next) => {
     try {
       const id = req.params.questionId
       let data = await Questions.getQuestionById(id)
 
       if (data) {
-        data.likes += likeInc
+        data[field] += parseInt(value)
         await data.save()
 
         res.status(200).json(data)

@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
   const host = req.get('host')
   res.status(200).json({
     questions: `${protocol}://${host}/v1/questions`,
+    answers: `${protocol}://${host}/v1/questions/<questionId>/answers`,
   })
 })
 
