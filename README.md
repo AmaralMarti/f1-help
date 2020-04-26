@@ -219,7 +219,7 @@ _**Exemplo de uso da paginação:**_
 
 
 **1.4 - Resposta:**
-```json
+```
 StatusCode: 200
 
 {
@@ -264,7 +264,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **2.3 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -290,7 +290,7 @@ StatusCode: 200
 **3.2 - Método:** POST
 
 **3.3 - Corpo aceito:**
-```json
+```
 {
   "user": String,  // Nome do usuário
   "title": String, // Título da pergunta
@@ -299,7 +299,7 @@ StatusCode: 200
 ```
 
 **3.4 - Resposta:**
-```json
+```
 StatusCode: 201
 
 {
@@ -326,7 +326,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 **4.2 - Método:** PATCH
 
 **4.3 - Corpo aceito:**
-```json
+```
 {
   "user": String,  // Nome do usuário
   "title": String, // Título da pergunta
@@ -335,7 +335,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 ```
 **4.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -363,7 +363,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **5.3 - Resposta:**
 
-```json
+```
 StatusCode: 204
 
 Esse endpoint não devolve corpo de retorno
@@ -377,12 +377,12 @@ _**questionId** deve ser preenchudi com o ID da pergunta desejada_
 **6.2 - Método:** POST
 
 **6.3 - Corpo aceito:**
-```json
+```
 Esse endpoint não precisa de envio de corpo
 ```
 **6.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -409,12 +409,12 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 **7.2 - Método:** POST
 
 **7.3 - Corpo aceito:**
-```json
+```
 Esse endpoint não precisa de envio de corpo
 ```
 **7.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -441,12 +441,12 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 **8.2 - Método:** POST
 
 **8.3 - Corpo aceito:**
-```json
+```
 Esse endpoint não precisa de envio de corpo
 ```
 **8.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -480,7 +480,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 Diferente do endpoint que retorna a lista de perguntas cadastradas (_[GET]/v1/questions_) nesse endpoint não fiz a implementação do suporte aos parâmetros. Para o uso que eu fiz não tive necessidade de implementá-los, caso você tenha uma necessidade diferente é possível dar uma olhada em como está o código no outro endpoint e implementar nesse. O processo é bem simples, daria até para criar um _middleware_ para ser usado nos 2 endpoints e seria simples de fazer.
 
 **1.4 - Resposta:**
-```json
+```
 StatusCode: 200
 
 {
@@ -508,7 +508,7 @@ _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **2.3 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -529,7 +529,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 **3.2 - Método:** POST
 
 **3.3 - Corpo aceito:**
-```json
+```
 {
   "user": String,  // Nome do usuário
   "text": String   // Texto da resposta
@@ -537,7 +537,7 @@ _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 ```
 
 **3.4 - Resposta:**
-```json
+```
 StatusCode: 201
 
 {
@@ -559,7 +559,7 @@ _**:answerId** deve ser preenchido com o ID da resposta desejada_
 **4.2 - Método:** PATCH
 
 **4.3 - Corpo aceito:**
-```json
+```
 {
   "user": String,  // Nome do usuário
   "text": String   // Texto da resposta
@@ -567,7 +567,7 @@ _**:answerId** deve ser preenchido com o ID da resposta desejada_
 ```
 **4.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -590,7 +590,7 @@ _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **5.3 - Resposta:**
 
-```json
+```
 StatusCode: 204
 
 Esse endpoint não devolve corpo de retorno
@@ -605,12 +605,12 @@ _**:answerId** deve ser preenchido com o ID da resposta desejada_
 **6.2 - Método:** POST
 
 **6.3 - Corpo aceito:**
-```json
+```
 Esse endpoint não precisa de envio de corpo
 ```
 **6.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
@@ -632,12 +632,12 @@ _**:answerId** deve ser preenchido com o ID da resposta desejada_
 **7.2 - Método:** POST
 
 **7.3 - Corpo aceito:**
-```json
+```
 Esse endpoint não precisa de envio de corpo
 ```
 **7.4 - Resposta:**
 
-```json
+```
 StatusCode: 200
 
 {
