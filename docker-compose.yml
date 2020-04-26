@@ -3,6 +3,7 @@ version: '3.1'
 services:
   mariadb:
     image: mariadb
+    container_name: f1-help-database
     ports:
       - "3306:3306"
     volumes:
@@ -12,3 +13,27 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: f1_help_db_prod
 
+  backend:
+    build: ./back-end
+    container_name: f1-help-backend
+    environment:
+      DB_HOST: mariadb
+      DB_USER: root
+      DB_PASS: 1234
+      DB_PORT: 3306
+    ports:
+      - 4000:4000
+    links:
+      - mariadb
+    depends_on:
+      - mariadb
+
+  frontend:
+    build: ./front-end
+    container_name: f1-help-frontend
+    environment:
+      - BASE_URL=backend:4000
+    ports:
+      - 3000:5000
+    links:
+      - backend
