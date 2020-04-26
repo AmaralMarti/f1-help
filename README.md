@@ -33,14 +33,14 @@ O sistema tem uma **API Rest** no back-end, a qual usa um banco de dados **Maria
 $ git clone https://github.com/AmaralMarti/f1-help.git
 ```
 
-### 2 - Entre no diretório do projeto e suba o Docker Compose
+#### 2 - Entre no diretório do projeto e suba o Docker Compose
 ```
 $ cd f1-help
 $ docker-compose up -d
 ```
 _**Importante:** na primeira vez que você subir o Docker Compose acontecerá o **pull** e o **build** das imagens Docker utilizadas, o que pode demorar alguns minutos dependendo da sua internet e dos recursos do seu computador._
 
-### 3 - Verifique os containers em execução
+#### 3 - Verifique os containers em execução
 ```
 $ docker ps
 
@@ -258,6 +258,7 @@ StatusCode: 200
 ### 2 - Retorna uma pergunta especificamente
 
 **2.1 - Endpoint:** /v1/questions/**_:questionId_**
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **2.2 - Método:** GET
