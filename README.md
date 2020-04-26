@@ -65,12 +65,12 @@ No ambiente de desenvolvimento você poderá acessar o código-fonte, fazer alte
 ```
 $ git clone https://github.com/AmaralMarti/f1-help.git
 ```
-### 2 - Entre no diretório do projeto
+#### 2 - Entre no diretório do projeto
 ```
 $ cd f1-help
 ```
 
-### 3 - Altere o arquivo docker-compose.yml
+#### 3 - Altere o arquivo docker-compose.yml
 ```
 $ mv docker-compose.yml docker-compose-prod.yml
 $ mv docker-compose-dev.yml docker-compose.yml
@@ -322,6 +322,7 @@ StatusCode: 201
 ### 4 - Alterar uma pergunta (total ou parcialmente)
 
 **4.1 - Endpoint:** /v1/questions/**_:questionId_**
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **4.2 - Método:** PATCH
@@ -358,6 +359,7 @@ StatusCode: 200
 ### 5 - Apagar uma pergunta
 
 **5.1 - Endpoint:** /v1/questions/**_:questionId_**
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **5.2 - Método:** DELETE
@@ -373,6 +375,7 @@ Esse endpoint não devolve corpo de retorno
 ### 6 - Incrementar em 1 o View de uma pergunta
 
 **6.1 - Endpoint:** /v1/questions/:questionId/view
+
 _**questionId** deve ser preenchudi com o ID da pergunta desejada_
 
 **6.2 - Método:** POST
@@ -405,6 +408,7 @@ StatusCode: 200
 ### 7 - Incrementar em 1 o Like de uma pergunta
 
 **7.1 - Endpoint:** /v1/questions/**_:questionId_**/like
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **7.2 - Método:** POST
@@ -437,6 +441,7 @@ StatusCode: 200
 ### 8 - Reduzir em 1 o Like de uma pergunta
 
 **8.1 - Endpoint:** /v1/questions/**_:questionId_**/dislike
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **8.2 - Método:** POST
@@ -471,6 +476,7 @@ StatusCode: 200
 ### 1 - Retorna a lista de respostas cadastradas para uma pergunta
 
 **1.1 - Endpoint:** /v1/questions/**_:questionId_**/answers
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **1.2 - Método:** GET
@@ -502,6 +508,7 @@ StatusCode: 200
 ### 2 - Retorna uma resposta especificamente
 
 **2.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
@@ -525,6 +532,7 @@ StatusCode: 200
 ### 3 - Cadastrar uma nova resposta
 
 **3.1 - Endpoint:**/v1/questions/**_:questionId_**/answers
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 
 **3.2 - Método:** POST
@@ -554,6 +562,7 @@ StatusCode: 201
 ### 4 - Alterar uma resposta (total ou parcialmente)
 
 **4.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
@@ -584,6 +593,7 @@ StatusCode: 200
 ### 5 - Apagar uma resposta
 
 **5.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
@@ -600,6 +610,7 @@ Esse endpoint não devolve corpo de retorno
 ### 6 - Incrementar em 1 o Like de uma resposta
 
 **6.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**/like
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
@@ -627,6 +638,7 @@ StatusCode: 200
 ### 7 - Reduzir em 1 o Like de uma resposta
 
 **7.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**/dislike
+
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
