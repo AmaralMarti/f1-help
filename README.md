@@ -510,6 +510,7 @@ StatusCode: 200
 **2.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**
 
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
+
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **2.2 - Método:** GET
@@ -564,6 +565,7 @@ StatusCode: 201
 **4.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**
 
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
+
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **4.2 - Método:** PATCH
@@ -595,6 +597,7 @@ StatusCode: 200
 **5.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**
 
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
+
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **5.2 - Método:** DELETE
@@ -612,6 +615,7 @@ Esse endpoint não devolve corpo de retorno
 **6.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**/like
 
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
+
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **6.2 - Método:** POST
@@ -640,6 +644,7 @@ StatusCode: 200
 **7.1 - Endpoint:** /v1/questions/**_:questionId_**/answers/**_:answerId_**/dislike
 
 _**:questionId** deve ser preenchido com o ID da pergunta desejada_
+
 _**:answerId** deve ser preenchido com o ID da resposta desejada_
 
 **7.2 - Método:** POST
