@@ -19,7 +19,7 @@ export default () => {
   const [ orderField, setOrderField ] = useLocalStorage('orderField')
   const [ orderDirection, setOrderDirection ] = useLocalStorage('orderDirection')
 
-  const [ filterValue, setFilterValue ] = useLocalStorage('filterValue')
+  const [ filterText, setFilterText ] = useLocalStorage('filterText')
   const [ filterMethod, setFilterMethod ] = useLocalStorage('filterMethod')
   const [ filterField, setFilterField ] = useLocalStorage('filterField')
 
@@ -80,7 +80,7 @@ export default () => {
   }
 
   async function handleSearch(value, method, field) {
-    setFilterValue(value)
+    setFilterText(value)
     setFilterMethod(method)
     setFilterField(field)
 
@@ -178,9 +178,9 @@ export default () => {
       <Row>
         <Col>
           <FormFilter
-            value={filterValue}
-            method={filterMethod}
-            field={filterField}
+            value={ filterText }
+            method={ filterMethod }
+            field={ filterField }
             onSearch={ handleSearch }
           />
         </Col>

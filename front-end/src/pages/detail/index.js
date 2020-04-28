@@ -94,8 +94,8 @@ export default () => {
     }
   }
 
-  function handleDelete(id) {
-    setIdDelete(id)
+  function handleDelete(deleteId) {
+    setIdDelete(deleteId)
     setShowConfirmation(true)
   }
 

@@ -61,7 +61,7 @@ const Answers = {
           return res.status(403).json({ error: `The answer id ${id} does not belong to that question` })
         }
 
-        let { user, title, text, views, likes } = req.body
+        let { user, text, likes } = req.body
 
         data.user = user || data.user
         data.text = text || data.text

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 router.use('/v1/questions', questions)
 
 router.use((err, req, res, next) => {
-  let error = (err.parent || {}).sqlMessage
+  // let error = (err.parent || {}).sqlMessage
   if (err.errors) {
     error = ''
     for (const i in err.errors) {

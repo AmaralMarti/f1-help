@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Row, Col, Form, Pagination } from 'react-bootstrap'
 
 export default (props) => {
-
-  const [ page, setPage] = useState(1)
   const [ perPage, setPerPage] = useState(5)
 
   useEffect(() => {
@@ -19,7 +17,6 @@ export default (props) => {
   }
 
   function handlePagination(pageNum) {
-    setPage(pageNum)
     paginate(pageNum, perPage)
   }
 
@@ -30,21 +27,18 @@ export default (props) => {
   }
 
   function getPagination() {
-    const page = props.page
-    const pageCount = props.pageCount
-
-    let prevNum = parseInt(page - 1)
-    const actualNum = parseInt(page)
-    let nextNum = parseInt(page + 1)
+    let prevNum = parseInt(props.page - 1)
+    const actualNum = parseInt(props.page)
+    let nextNum = parseInt(props.page + 1)
 
     prevNum = prevNum <= 0 ? undefined : prevNum
-    nextNum = nextNum > pageCount ? undefined : nextNum
+    nextNum = nextNum > props.pageCount ? undefined : nextNum
 
     let first = <Pagination.First onClick={ () => handlePagination(1)}/>
     let prev = <Pagination.Item onClick={ () => handlePagination(prevNum)}>{ prevNum }</Pagination.Item>
     let actual = <Pagination.Item active>{ actualNum }</Pagination.Item>
     let next = <Pagination.Item onClick={ () => handlePagination(nextNum)}>{ nextNum }</Pagination.Item>
-    let last = <Pagination.Last onClick={ () => handlePagination(pageCount)}/>
+    let last = <Pagination.Last onClick={ () => handlePagination(props.pageCount)}/>
 
     if (!prevNum) {
       first = <Pagination.First disabled/>
