@@ -1,3 +1,11 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=alert_status)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=code_smells)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=bugs)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=security_rating)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=sqale_index)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+
+
+
 # F1 Help - Fórum de Perguntas
 
 _**Atenção:** Essa é uma prova de conceito, portanto **não tem objetivo de ser um sistema pronto para ser colocado em produção**. Algumas validações de consistência não foram implementadas e alguns recursos forma implementados de maneira simplificada._
