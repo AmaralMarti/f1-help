@@ -3,7 +3,9 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=bugs)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=security_rating)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=sqale_index)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
-
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=AmaralMarti_f1-help&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=AmaralMarti_f1-help)
 
 
 # F1 Help - Fórum de Perguntas
