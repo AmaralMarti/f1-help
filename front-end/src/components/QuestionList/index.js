@@ -8,43 +8,35 @@ import './style.css'
 
 export default (props) => {
 
+  function getButton(icon, variant, onClick) {
+    return (
+      <Button
+        className="btn-func"
+        variant={ variant }
+        size="sm"
+        onClick={ onClick }
+      >
+        { icon }
+      </Button>
+    )
+  }
+
   function loadQuestions() {
     const questions = ((props.data || {}).data || [])
     if (questions.length > 0) {
       return questions.map(question => (
         <tr key={ question.id }>
-          <td className='col-question item'>
-            <Link to={`/questions/${question.id}`}>{ question.title }</Link>
-          </td>
+          <td className='col-question item'><Link to={`/questions/${question.id}`}>{ question.title }</Link></td>
           <td className='col-details'>{ question.answers.length }</td>
           <td className='col-details'>{ question.views }</td>
           <td className='col-details'>{ question.likes }</td>
           <td className='col-details'>
-            <Button
-              className="btn-func"
-              variant="primary"
-              size="sm"
-              onClick={ () => handleLike(question.id) }>
-              <FaThumbsUp/>
-            </Button>
-            <Button
-              className="btn-func"
-              variant="primary"
-              size="sm"
-              onClick={ () => handleDislike(question.id) }>
-              <FaThumbsDown/>
-            </Button>
-            <Button
-              className="btn-func"
-              variant="danger"
-              size="sm"
-              onClick={ () => handleDelete(question.id) }>
-              <FaTrash/>
-            </Button>
+            { getButton(<FaThumbsUp/>, 'primary', () => handleLike(question.id)) }
+            { getButton(<FaThumbsDown/>, 'primary', () => handleDislike(question.id)) }
+            { getButton(<FaTrash/>, 'danger', () => handleDelete(question.id)) }
           </td>
         </tr>
-        )
-      )
+      ))
     } else {
       return (
         <tr>
